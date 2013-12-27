@@ -1,0 +1,5 @@
+{% if not edit_mode %}<section class="slide" {% if object.background_css %}data-background="{{ object.background_css }}"{% endif %}>{% endif %}
+{% if object.sub_title %}<h4 class="titolo-slide">{{ object.sub_title }}</h4>{% endif %}
+{% if object.title %}<h2>{{ object.title }}</h2>{% endif %}
+{{ body|safe }}
+{% if not edit_mode %}</section>{% endif %}

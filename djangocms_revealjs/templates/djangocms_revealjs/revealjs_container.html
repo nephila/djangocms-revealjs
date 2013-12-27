@@ -1,0 +1,6 @@
+{% load cms_tags %}
+{% if not edit_mode %}<section>{% endif %}
+{% for plugin in instance.child_plugin_instances %}
+    	{% render_plugin plugin %}
+{% endfor %}
+{% if not edit_mode %}</section>{% endif %}
