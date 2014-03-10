@@ -1,0 +1,86 @@
+{% load cms_tags sekizai_tags static menu_tags %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>django CMS Reveal.JS demo</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="{% static 'css/reveal.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/theme/moon.css' %}" id="theme">
+    <link rel="stylesheet" href="{% static 'lib/css/zenburn.css' %}">
+
+    {% render_block "css" %}
+    <style>
+        #cms_toolbar .cms_structure .cms_dragarea {
+            position: static!important;
+            width: 100%!important;
+        }
+    </style>
+</head>
+<body>
+{% block extra_body %} {% endblock %}
+
+{% cms_toolbar %}
+<div class="reveal">
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+        {% placeholder slides %}
+    </div>
+</div>
+{% render_block "js" %}
+<script src="{% static 'admin/js/jquery.js' %}"></script>
+<!-- script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script -->
+<script src="{% static 'lib/js/head.min.js' %}"></script>
+<script src="{% static 'js/reveal.js' %}"></script>
+
+<script>
+
+    // Full list of configuration options available here:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+        // Parallax scrolling
+        // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+        // parallaxBackgroundSize: '2100px 900px',
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+            { src: '{% static "lib/js/classList.js" %}', condition: function () {
+                return !document.body.classList;
+            } },
+            { src: '{% static "plugin/markdown/marked.js" %}', condition: function () {
+                return !!document.querySelector('[data-markdown]');
+            } },
+            { src: '{% static "plugin/markdown/markdown.js" %}', condition: function () {
+                return !!document.querySelector('[data-markdown]');
+            } },
+            { src: '{% static "plugin/highlight/highlight.js" %}', async: true, callback: function () {
+                hljs.initHighlightingOnLoad();
+            } },
+            { src: '{% static "plugin/zoom-js/zoom.js" %}', async: true, condition: function () {
+                return !!document.body.classList;
+            } },
+            { src: '{% static "plugin/notes/notes.js" %}', async: true, condition: function () {
+                return !!document.body.classList;
+            } }
+        ]
+    });
+
+</script>
+</body>
+</html>
+' %}
