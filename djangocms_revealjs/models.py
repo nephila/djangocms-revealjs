@@ -4,8 +4,9 @@ from django.utils.html import strip_tags
 from django.utils.text import Truncator
 from django.utils.translation import ugettext_lazy as _
 
-from filer.fields.image import FilerImageField
+from cms.models import CMSPlugin
 from djangocms_text_ckeditor.models import AbstractText
+from filer.fields.image import FilerImageField
 
 
 FRAGMENT_CHOICES = {
@@ -54,8 +55,6 @@ class SlideModel(AbstractText):
                              default='', blank=True)
     sub_title = models.CharField(_(u'Section title'), max_length=100,
                                  default='', blank=True)
-    markdown = models.BooleanField(verbose_name=_(u'Markdown'), default=False,
-                                   help_text=_(u'Use Markdown syntax'))
     transition = models.CharField(verbose_name=_('Transition'), max_length=20,
                                   choices=TRANSITIONS.items(), default='',
                                   blank=True)
@@ -79,3 +78,31 @@ class SlideModel(AbstractText):
         if self.title:
             return self.title
         return Truncator(strip_tags(self.body)).words(3, truncate="...")
+
+
+class SlideNote(CMSPlugin):
+    """
+    Slide notes
+    """
+    note = models.TextField(verbose_name=_(u'Notes'), default='',
+                            blank=True)
+    class Meta:
+        verbose_name = _('note')
+        verbose_name_plural = _('notes')
+
+    def __unicode__(self):
+        return Truncator(strip_tags(self.note)).words(3, truncate="...")
+
+
+class SlideCode(CMSPlugin):
+    """
+    Slide codes
+    """
+    code = models.TextField(verbose_name=_(u'Code'), default='',
+                            blank=True)
+    class Meta:
+        verbose_name = _('code')
+        verbose_name_plural = _('codes')
+
+    def __unicode__(self):
+        return Truncator(strip_tags(self.code)).words(3, truncate="...")

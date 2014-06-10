@@ -6,7 +6,43 @@ from cms.plugin_pool import plugin_pool
 from cms.plugin_base import CMSPluginBase
 from djangocms_text_ckeditor.cms_plugins import TextPlugin
 
-from .models import FragmentModel, SlideModel
+from .models import FragmentModel, SlideModel, SlideNote, SlideCode
+
+
+class RevealChildPlugin(CMSPluginBase):
+    module = _('Reveal.JS')
+    admin_preview = False
+    allow_children = False
+    text_enabled = True
+    parent_classes = ['RevealSlidePlugin']
+
+    def render(self, context, instance, placeholder):
+        context = super(RevealChildPlugin, self).render(context, instance, placeholder)
+        context.update({
+            'instance': instance,
+            'placeholder': placeholder,
+        })
+        return context
+
+
+class RevealNotePlugin(RevealChildPlugin):
+    name = _(u"Slide note")
+    model = SlideNote
+    render_template = "djangocms_revealjs/revealjs_note.html"
+
+    def icon_src(self, foo):
+        return static("img/slide_note.png")
+plugin_pool.register_plugin(RevealNotePlugin)
+
+
+class RevealCodePlugin(RevealChildPlugin):
+    name = _(u"Slide code")
+    model = SlideCode
+    render_template = "djangocms_revealjs/revealjs_code.html"
+
+    def icon_src(self, foo):
+        return static("img/slide_code.png")
+plugin_pool.register_plugin(RevealCodePlugin)
 
 
 class RevealFragmentPlugin(TextPlugin):
@@ -59,8 +95,8 @@ class RevealSlidePlugin(TextPlugin):
     child_classes = ['RevealFragmentPlugin', 'RevealBlockFragmentPlugin']
     fieldsets = (
         (None, {'fields': ('title', 'sub_title', 'body')}),
-        ('Options', {'fields': ('transition', 'transition_speed', 'css_class'), 'classes': 'collapse'}),
-        ('Background', {'fields': ('background_css', 'background_image', 'background_transition_slide'), 'classes': 'collapse'})
+        ('Options', {'fields': (('transition', 'transition_speed'), 'css_class'), 'classes': 'collapse'}),
+        ('Background', {'fields': (('background_css', 'background_image'), 'background_transition_slide'), 'classes': 'collapse'})
     )
 
     def render(self, context, instance, placeholder):
