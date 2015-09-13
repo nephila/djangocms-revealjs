@@ -76,6 +76,8 @@ class SlideModel(AbstractText):
 
     def __unicode__(self):
         if self.title:
+            if self.sub_title:
+                return '%s - %s' % (self.sub_title, self.title)
             return self.title
         return Truncator(strip_tags(self.body)).words(3, truncate="...")
 
