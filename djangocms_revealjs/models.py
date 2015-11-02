@@ -79,6 +79,8 @@ class SlideModel(AbstractText):
             if self.sub_title:
                 return '%s - %s' % (self.sub_title, self.title)
             return self.title
+        elif self.sub_title:
+            return self.sub_title
         return Truncator(strip_tags(self.body)).words(3, truncate="...")
 
 
