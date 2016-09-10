@@ -92,7 +92,7 @@ class RevealSlidePlugin(TextPlugin):
     admin_preview = False
     allow_children = True
     text_enabled = False
-    child_classes = ['RevealFragmentPlugin', 'RevealBlockFragmentPlugin']
+    child_classes = ['RevealFragmentPlugin', 'RevealBlockFragmentPlugin', 'RevealCodePlugin', 'RevealNotePlugin']
     fieldsets = (
         (None, {'fields': ('title', 'sub_title', 'body')}),
         ('Options', {'fields': (('transition', 'transition_speed'), 'css_class'), 'classes': 'collapse'}),
